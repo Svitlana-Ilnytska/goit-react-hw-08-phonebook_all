@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import { Container, Row, Col, Form, Button } from "react-bootstrap";
+
 export default function LogIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -32,23 +34,44 @@ export default function LogIn() {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        EMAIL
-        <input type="text" value={email} onChange={handleChange} name="email" />
-      </label>
-      <br />
-      <label>
-        PASSWORD
-        <input
-          type="text"
-          value={password}
-          onChange={handleChange}
-          name="password"
-        />
-      </label>
-      <br />
-      <button type="submit">Log In</button>
-    </form>
+    <Container>
+      <h1 className="shadow-sm mt-5 p-3 text-center rounded">Log In</h1>
+      <Row className="mt-10">
+        <Col lg={5} md={6} sm={12} className="p-5 m-auto shadow-sm rounded-lg">
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-2" controlId="formBasicEmail">
+              <Form.Label>Email address </Form.Label>
+              <Form.Control
+                type="email"
+                value={email}
+                onChange={handleChange}
+                name="email"
+                placeholder="Enter email"
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicPassword">
+              <Form.Label>Password </Form.Label>
+              <Form.Control
+                type="password"
+                value={password}
+                onChange={handleChange}
+                name="password"
+                placeholder="Password"
+              />
+            </Form.Group>
+
+            <Button variant="primary btn-block" type="submit">
+              Log In
+            </Button>
+          </Form>
+        </Col>
+      </Row>
+
+      <h6 className="mt-5 p-5 text-center text-secondary">
+        {" "}
+        Copyright © 2022 by Svita Svitlana. All rights reserved.
+      </h6>
+    </Container>
   );
 }
