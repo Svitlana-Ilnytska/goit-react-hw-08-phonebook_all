@@ -23,7 +23,7 @@ export default function HomePage() {
         <Carousel.Item>
           <img
             className="d-block w-100"
-            src="https://cdnn21.img.ria.ru/images/07e6/02/0e/1772759856_0:17:3074:1746_600x0_80_0_0_77494e4b2d3bbc42ad3c5a7b6430cac9.jpg"
+            src="https://www.bakermckenzie.com/-/media/images/locations/ukraine/ukraine-headline-module1440x788.jpg?sc_lang=en"
             alt="Second slide"
           />
 

@@ -18,6 +18,10 @@ const HomePage = lazy(() =>
   import("./views/HomePage/HomePage" /* webpackChunkName: "HomePage" */)
 );
 
+const СontactsPage = lazy(() =>
+  import("./views/СontactsPage/СontactsPage" /* webpackChunkName: "СontactsPage" */)
+);
+
 export default function App() {
   return (
     <div>
@@ -35,6 +39,10 @@ export default function App() {
 
           <Route path="/login" exact>
             <LogInPage />
+          </Route>
+
+          <Route path="/contacts" exact>
+            <СontactsPage />
           </Route>
 
           <Route>
