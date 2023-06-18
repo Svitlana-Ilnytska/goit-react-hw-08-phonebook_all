@@ -70,7 +70,7 @@ export default function LogIn() {
 
       <h6 className="mt-5 p-5 text-center text-secondary">
         {" "}
-        Copyright © 2022 by Svita Svitlana. All rights reserved.
+        Copyright © 2023 by Svita Svitlana. All rights reserved.
       </h6>
     </Container>
   );

@@ -37,7 +37,7 @@ export default function ContactForm() {
       number: number,
     };
 
-    const theSameContact = contacts.some((contact) =>
+    const theSameContact = contacts?.some((contact) =>
       contact.name.toLowerCase().includes(contactName.name.toLowerCase())
     );
 

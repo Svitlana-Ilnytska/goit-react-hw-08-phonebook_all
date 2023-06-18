@@ -9,7 +9,7 @@ export default function HomePage() {
         <Carousel.Item>
           <img
             className="d-block w-100"
-            src="https://pokrov.world/wp-content/uploads/2020/09/shu-ukraine-kiev-monumentindependence_1088907020-1440x823-editorial.jpg"
+            src="https://hips.hearstapps.com/hmg-prod/images/elle-ukraine-personal-essay-image02-1647286165.jpg"
             alt="Welcome to the Ukrainian phonebook"
           />
           <Carousel.Caption>
