@@ -1,11 +1,36 @@
-import React, { useState } from "react";
-
+import React, { useState, useEffect} from "react";
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+import {useCreateUserMutation} from '../../redux/auth/authSlice';
+import {tokenAuth, logInAuth} from '../../redux/auth/auth-actions'
+ 
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 
 export default function SignUp() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [createUser,{ data: user, isSuccess, isError, error }] = useCreateUserMutation();
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  useEffect(() => {
+    if (user) {
+        dispatch(tokenAuth(user.token));
+        dispatch(logInAuth(true));
+        history.push('/contacts');   
+        console.log('registered');
+    }
+    if (isError) {            
+        switch (error.status) {
+            case 400:
+                alert('User creation error.');
+            default:
+              alert('Unknworn error.');
+        }
+    }
+}, [user, isSuccess, isError, error, dispatch, history]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,8 +54,13 @@ export default function SignUp() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // this.props.onSignUp({ ...this.state });
-    reset();
+      const user = {
+      name: name,
+      email: email,
+      password: password,
+  };  
+      createUser(user);
+      reset();
   };
 
   const reset = () => {
@@ -51,7 +81,7 @@ export default function SignUp() {
                 type="text"
                 value={name}
                 onChange={handleChange}
-                name="login"
+                name="name"
                 placeholder="Enter login"
               />
             </Form.Group>

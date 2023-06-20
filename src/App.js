@@ -1,7 +1,13 @@
 import React, { Suspense, lazy } from "react";
+import { useEffect } from "react";
 import { Route, Switch } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { logInAuth } from "./redux/auth/auth-actions";
+import { useFetchUserQuery } from "./redux/auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { getToken } from "./redux/auth/auth-selectors";
+
 import Navigation from "./components/Navigation/Navigation";
-// import Spiner from "./components/Spiner/Spiner";
 
 // import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 // import "./App.css";
@@ -19,10 +25,24 @@ const HomePage = lazy(() =>
 );
 
 const СontactsPage = lazy(() =>
-  import("./views/СontactsPage/СontactsPage" /* webpackChunkName: "СontactsPage" */)
+  import(
+    "./views/СontactsPage/СontactsPage" /* webpackChunkName: "СontactsPage" */
+  )
 );
 
 export default function App() {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const token = useSelector(getToken);
+  const { data: user } = useFetchUserQuery(token);
+
+  useEffect(() => {
+    if (token !== "") {
+      dispatch(logInAuth(true));
+      user && history.push("/contacts");
+    }
+  }, [user, token, history, dispatch]);
   return (
     <div>
       <Navigation />

@@ -1,15 +1,19 @@
 import React, { useState } from "react";
+import { useSelector } from 'react-redux';
 import {
   useCreateContactMutation,
   useFetchContactsQuery,
 } from "../../redux/contacts/contactsSlice";
+import {getToken} from "../../redux/auth/auth-selectors";
 
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 
 export default function ContactForm() {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
-  const { data: contacts } = useFetchContactsQuery();
+  const token = useSelector(getToken);
+
+  const { data: contacts } = useFetchContactsQuery(token);
   const [createContact] = useCreateContactMutation();
 
   const handleChange = (e) => {
@@ -36,7 +40,7 @@ export default function ContactForm() {
       name: name,
       number: number,
     };
-
+    
     const theSameContact = contacts?.some((contact) =>
       contact.name.toLowerCase().includes(contactName.name.toLowerCase())
     );
@@ -44,7 +48,11 @@ export default function ContactForm() {
     if (theSameContact)
       return alert(`${contactName.name}  is already in contacts.`);
 
-    createContact(contactName);
+    createContact({contactName, token });
+    reset();
+  };
+
+  const reset = () => {
     setName("");
     setNumber("");
   };
@@ -61,7 +69,7 @@ export default function ContactForm() {
                 name="name"
                 value={name}
                 onChange={handleChange}
-                pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+                pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
                 title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
                 required
               />

@@ -1,10 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import ContactItem from "../ContactItem/ContactItem";
 import {
   useFetchContactsQuery,
   useDeleteContactMutation,
 } from "../../redux/contacts/contactsSlice";
+import {getToken} from "../../redux/auth/auth-selectors";
+
+import ContactItem from "../ContactItem/ContactItem";
 
 import css from "./ContactList.module.css";
 
@@ -15,19 +17,24 @@ const filterAllContacts = (contacts, filter) => {
 };
 
 const ContactList = () => {
-  const { data: contacts } = useFetchContactsQuery();
+  const token = useSelector(getToken);
+  const { data: contacts } = useFetchContactsQuery(token);
+
+
   const filterAll = useSelector((state) => state.filter);
   const items = filterAllContacts(contacts, filterAll);
 
-  
   const [deleteContact] = useDeleteContactMutation();
+
   return (
     <ul className={css.wrapList}>
-      { items?.map((item) => (
-        <li key={item.id} className={css.wrapItem}>
+      { items?.map(({ id, name, number }) => (
+        <li key={id} className={css.wrapItem}>
           <ContactItem
-            {...item}
-            onDeleteContact={() => deleteContact(item.id)}
+           id={id}
+           name={name}
+           number={number}
+           onDeleteContact={() => deleteContact({id, token})}
           />
         </li>
       ))}
