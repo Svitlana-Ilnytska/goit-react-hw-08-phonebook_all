@@ -32,8 +32,8 @@ export const contactApi = createApi({
     }),
 
     deleteContact: builder.mutation({
-      query: ({contactId, token}) => ({
-        url: `/contacts/${contactId}`,
+      query: ({id, token}) => ({
+        url: `/contacts/${id}`,
         method: "DELETE",
         headers: {
           Authorization: token,
