@@ -1,36 +1,60 @@
-import React, { useState, useEffect} from "react";
-import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
-import {useCreateUserMutation} from '../../redux/auth/authSlice';
-import {tokenAuth, logInAuth} from '../../redux/auth/auth-actions'
- 
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { useCreateUserMutation } from "../../redux/auth/authSlice";
+import { tokenAuth, logInAuth } from "../../redux/auth/auth-actions";
+
+import {
+  Button,
+  Box,
+  FormControl,
+  FormLabel,
+  Input,
+  Heading,
+  Text,
+  Flex,
+  useToast,
+} from "@chakra-ui/core";
 
 export default function SignUp() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [createUser,{ data: user, isSuccess, isError, error }] = useCreateUserMutation();
+  const [createUser, { data: user, isSuccess, isError, error }] =
+    useCreateUserMutation();
   const dispatch = useDispatch();
   const history = useHistory();
-
+  const toast = useToast();
   useEffect(() => {
     if (user) {
-        dispatch(tokenAuth(user.token));
-        dispatch(logInAuth(true));
-        history.push('/contacts');   
-        console.log('registered');
+      dispatch(tokenAuth(user.token));
+      dispatch(logInAuth(true));
+      history.push("/contacts");
+      console.log("registered");
+      toast({
+        title: "Account created.",
+        description: "We've created your account for you.",
+        status: "success",
+        duration: 9000,
+        isClosable: true,
+      });
     }
-    if (isError) {            
-        switch (error.status) {
-            case 400:
-                alert('User creation error.');
-            default:
-              alert('Unknworn error.');
-        }
+    if (isError) {
+      switch (error.status) {
+        case 400:
+          toast({
+            title: "An error occurred.",
+            description: "Unable to create user account.",
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+          });
+        default:
+          alert("Unknworn error.");
+      }
     }
-}, [user, isSuccess, isError, error, dispatch, history]);
+  }, [user, isSuccess, isError, error, dispatch, history]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -54,13 +78,13 @@ export default function SignUp() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-      const user = {
+    const user = {
       name: name,
       email: email,
       password: password,
-  };  
-      createUser(user);
-      reset();
+    };
+    createUser(user);
+    reset();
   };
 
   const reset = () => {
@@ -70,54 +94,77 @@ export default function SignUp() {
   };
 
   return (
-    <Container>
-      <h1 className="shadow-sm mt-5 p-3 text-center rounded">Sign Up</h1>
-      <Row className="mt-10">
-        <Col lg={5} md={6} sm={12} className="p-5 m-auto shadow-sm rounded-lg">
-          <Form onSubmit={handleSubmit}>
-            <Form.Group  className="mb-2"  controlId="formBasicLogin">
-              <Form.Label>Login </Form.Label>
-              <Form.Control
+    <Flex
+      minHeight="100vh"
+      width="full"
+      align="flex-start"
+      justifyContent="center"
+      py={12}
+    >
+      <Box
+        borderWidth={1}
+        px={4}
+        width="full"
+        maxWidth="500px"
+        borderRadius={4}
+        textAlign="center"
+        boxShadow="lg"
+        py={6}
+      >
+        <Box textAlign="center" py={4}>
+          <Heading>Sign Up</Heading>
+        </Box>
+
+        <Box my={8} textAlign="left">
+          <form onSubmit={handleSubmit}>
+            <FormControl>
+              <FormLabel>Login </FormLabel>
+              <Input
                 type="text"
                 value={name}
                 onChange={handleChange}
                 name="name"
                 placeholder="Enter login"
               />
-            </Form.Group>
+            </FormControl>
 
-            <Form.Group className="mb-2" controlId="formBasicEmail">
-              <Form.Label>Email address </Form.Label>
-              <Form.Control
+            <FormControl mt={4}>
+              <FormLabel>Email address </FormLabel>
+              <Input
                 type="email"
                 value={email}
                 onChange={handleChange}
                 name="email"
                 placeholder="Enter email"
               />
-            </Form.Group>
+            </FormControl>
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Password </Form.Label>
-              <Form.Control
+            <FormControl mt={4}>
+              <FormLabel>Password </FormLabel>
+              <Input
                 type="password"
                 value={password}
                 onChange={handleChange}
                 name="password"
                 placeholder="Password"
               />
-            </Form.Group>
-            <Button variant="primary btn-block" type="submit">
+            </FormControl>
+            <Button
+              variantColor="teal"
+              width="full"
+              borderWidth={1}
+              mt={4}
+              type="submit"
+            >
               Sign Up
             </Button>
-          </Form>
-        </Col>
-      </Row>
+          </form>
+        </Box>
 
-      <h6 className="mt-5 p-5 text-center text-secondary">
-        {" "}
-        Copyright © 2023 by Svita Svitlana. All rights reserved.
-      </h6>
-    </Container>
+        <Text fontSize="sm">
+          Copyright © 2023 by Svita Svitlana. All rights reserved.
+        </Text>
+      </Box>
+    </Flex>
   );
 }

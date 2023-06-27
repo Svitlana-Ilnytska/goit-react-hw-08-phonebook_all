@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import filterContact from "../../redux/contacts/contacts-actions";
 import getFilter from "../../redux/contacts/contacts-selectors";
 
-import { Row, Col, Form } from "react-bootstrap";
+import { Input, Text } from "@chakra-ui/core";
 
 const Filter = () => {
   const value = useSelector(getFilter);
@@ -13,19 +13,15 @@ const Filter = () => {
 
   return (
     <>
-      <p className="mt-2 p-2 text-center text-secondary">
-        Find contacts by name
-      </p>
-      <Row className="mt-10">
-        <Col lg={5} md={6} sm={12} className="p-5 m-auto rounded-lg">
-          <Form.Control
-            type="text"
-            value={value}
-            onChange={handleFilter}
-            placeholder="Search..."
-          />
-        </Col>
-      </Row>
+      <Text textAlign="left">Find contacts by name</Text>
+
+      <Input
+        mb={4}
+        type="text"
+        value={value}
+        onChange={handleFilter}
+        placeholder="Search..."
+      />
     </>
   );
 };

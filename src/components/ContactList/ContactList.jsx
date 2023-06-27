@@ -4,11 +4,14 @@ import {
   useFetchContactsQuery,
   useDeleteContactMutation,
 } from "../../redux/contacts/contactsSlice";
-import {getToken} from "../../redux/auth/auth-selectors";
+import { getToken } from "../../redux/auth/auth-selectors";
 
 import ContactItem from "../ContactItem/ContactItem";
 
-import css from "./ContactList.module.css";
+import {
+  ListItem,
+  List,
+} from "@chakra-ui/core";
 
 const filterAllContacts = (contacts, filter) => {
   return contacts?.filter((contact) =>
@@ -20,25 +23,24 @@ const ContactList = () => {
   const token = useSelector(getToken);
   const { data: contacts } = useFetchContactsQuery(token);
 
-
   const filterAll = useSelector((state) => state.filter);
   const items = filterAllContacts(contacts, filterAll);
 
   const [deleteContact] = useDeleteContactMutation();
 
   return (
-    <ul className={css.wrapList}>
-      { items?.map(({ id, name, number }) => (
-        <li key={id} className={css.wrapItem}>
+    <List spacing={3} borderWidth="1px" rounded="md" overflow="hidden">
+      {items?.map(({ id, name, number }) => (
+        <ListItem key={id}>
           <ContactItem
-           id={id}
-           name={name}
-           number={number}
-           onDeleteContact={() => deleteContact({id, token})}
+            id={id}
+            name={name}
+            number={number}
+            onDeleteContact={() => deleteContact({ id, token })}
           />
-        </li>
+        </ListItem>
       ))}
-    </ul>
+    </List>
   );
 };
 

@@ -8,10 +8,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { getToken } from "./redux/auth/auth-selectors";
 
 import Navigation from "./components/Navigation/Navigation";
+import {
+  ThemeProvider,
+  theme,
+  ColorModeProvider,
+  CSSReset,
+  useColorMode,
+  IconButton,
+  Box,
+  Spinner,
+  Flex,
+} from "@chakra-ui/core";
 
-// import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 // import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
+
 const SignUpPage = lazy(() =>
   import("./views/SignUpPage/SignUpPage" /* webpackChunkName: "MoviesPage" */)
 );
@@ -30,6 +40,7 @@ const СontactsPage = lazy(() =>
   )
 );
 
+
 export default function App() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -45,31 +56,55 @@ export default function App() {
   }, [user, token, history, dispatch]);
   return (
     <div>
-      <Navigation />
+      <ThemeProvider theme={theme}>
+        <ColorModeProvider>
+          <CSSReset />
 
-      <Suspense fallback={<p>loader...</p>}>
-        <Switch>
-          <Route path="/" exact>
-            <HomePage />
-          </Route>
+          <Navigation />
 
-          <Route path="/register" exact>
-            <SignUpPage />
-          </Route>
+          <Suspense
+            fallback={
+              <Flex
+                alignContent="center"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Box>
+                  <Spinner
+                    thickness="4px"
+                    speed="0.65s"
+                    emptyColor="gray.200"
+                    color="blue.500"
+                    size="xl"
+                  />
+                </Box>
+              </Flex>
+            }
+          >
+            <Switch>
+              <Route path="/" exact>
+                <HomePage />
+              </Route>
 
-          <Route path="/login" exact>
-            <LogInPage />
-          </Route>
+              <Route path="/register" exact>
+                <SignUpPage />
+              </Route>
 
-          <Route path="/contacts" exact>
-            <СontactsPage />
-          </Route>
+              <Route path="/login" exact>
+                <LogInPage />
+              </Route>
 
-          <Route>
-            <HomePage />
-          </Route>
-        </Switch>
-      </Suspense>
+              <Route path="/contacts" exact>
+                <СontactsPage />
+              </Route>
+
+              <Route>
+                <HomePage />
+              </Route>
+            </Switch>
+          </Suspense>
+        </ColorModeProvider>
+      </ThemeProvider>
     </div>
   );
 }
