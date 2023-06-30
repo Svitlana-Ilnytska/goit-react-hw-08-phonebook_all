@@ -13,8 +13,6 @@ import {
   theme,
   ColorModeProvider,
   CSSReset,
-  useColorMode,
-  IconButton,
   Box,
   Spinner,
   Flex,
@@ -40,7 +38,6 @@ const СontactsPage = lazy(() =>
   )
 );
 
-
 export default function App() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -54,6 +51,7 @@ export default function App() {
       user && history.push("/contacts");
     }
   }, [user, token, history, dispatch]);
+
   return (
     <div>
       <ThemeProvider theme={theme}>

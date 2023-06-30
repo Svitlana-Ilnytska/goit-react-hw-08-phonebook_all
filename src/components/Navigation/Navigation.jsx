@@ -31,10 +31,7 @@ export default function Navigation() {
     dispatch(logInAuth(false));
     dispatch(tokenAuth(""));
     history.push("/login");
-    console.log("log out");
   };
-
-  console.log(user);
 
   return (
     <>
