@@ -20,7 +20,7 @@ export default function HomePage() {
           Welcome back
         </Text>
         <Text position="absolute" top="200px" right="276px">
-          Don`t have an account? <Link href="register" color="blue.500" textDecoration='underline' >Sign In</Link>
+          Don`t have an account? <Link as={NavLink} to="/register" color="blue.500" textDecoration='underline' >Sign In</Link>
         </Text>
       </div>
     </Stack>
