@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.js": "/goit-react-hw-08-phonebook/static/js/main.c2e79b53.js",
+    "main.js": "/goit-react-hw-08-phonebook/static/js/main.03a6e16e.js",
     "MoviesPage.js": "/goit-react-hw-08-phonebook/static/js/MoviesPage.f0bfa44b.chunk.js",
     "MovieDetailsPage.js": "/goit-react-hw-08-phonebook/static/js/MovieDetailsPage.28bbe775.chunk.js",
     "HomePage.js": "/goit-react-hw-08-phonebook/static/js/HomePage.34051894.chunk.js",
@@ -9,7 +9,7 @@
     "static/js/482.a3b51d54.chunk.js": "/goit-react-hw-08-phonebook/static/js/482.a3b51d54.chunk.js",
     "static/media/teal-image.jpg": "/goit-react-hw-08-phonebook/static/media/teal-image.303bf160275c6d7bff87.jpg",
     "index.html": "/goit-react-hw-08-phonebook/index.html",
-    "main.c2e79b53.js.map": "/goit-react-hw-08-phonebook/static/js/main.c2e79b53.js.map",
+    "main.03a6e16e.js.map": "/goit-react-hw-08-phonebook/static/js/main.03a6e16e.js.map",
     "MoviesPage.f0bfa44b.chunk.js.map": "/goit-react-hw-08-phonebook/static/js/MoviesPage.f0bfa44b.chunk.js.map",
     "MovieDetailsPage.28bbe775.chunk.js.map": "/goit-react-hw-08-phonebook/static/js/MovieDetailsPage.28bbe775.chunk.js.map",
     "HomePage.34051894.chunk.js.map": "/goit-react-hw-08-phonebook/static/js/HomePage.34051894.chunk.js.map",
@@ -18,6 +18,6 @@
     "482.a3b51d54.chunk.js.map": "/goit-react-hw-08-phonebook/static/js/482.a3b51d54.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.c2e79b53.js"
+    "static/js/main.03a6e16e.js"
   ]
 }
