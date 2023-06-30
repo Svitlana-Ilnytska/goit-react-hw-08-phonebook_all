@@ -108,7 +108,7 @@ export default function ContactForm({
             value={name}
             onChange={handleChange}
             placeholder="Type name"
-            pattern="^[a-zA-Zа-яА-Я' -]+$"
+            pattern="^[a-zA-Zа-яА-Я\\s\\'-]+$"
             title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
             required
           />
@@ -122,7 +122,7 @@ export default function ContactForm({
             value={number}
             onChange={handleChange}
             placeholder="Type number"
-            pattern="[+]?[0-9]{1,4}[-.\s]?[()0-9]{1,3}[-.\s]?[0-9]{1,4}[-.\s]?[0-9]{1,4}[-.\s]?[0-9]{1,9}"
+            pattern="[+]?[0-9]{1,4}[-.\\s]?[()0-9]{1,3}[-.\\s]?[0-9]{1,4}[-.\\s]?[0-9]{1,4}[-.\\s]?[0-9]{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             required
           />
@@ -162,6 +162,6 @@ ContactForm.propTypes = {
 
 ContactForm.defaultProps = {
   id: "", 
-  name: "", 
-  number: "",
+  nameItem: "", 
+  numberItem: "",
 };
