@@ -9,7 +9,7 @@ import { tokenAuth, logInAuth } from "../../redux/auth/auth-actions";
 import { getToken } from "../../redux/auth/auth-selectors";
 import { getIsLogInAuth } from "../../redux/auth/auth-selectors";
 import UserMenu from "../UserMenu/UserMenu";
-
+import { NavLink } from "react-router-dom";
 import { Box, Flex, Link, Image, Stack, Text } from "@chakra-ui/core";
 
 import { useColorMode, IconButton } from "@chakra-ui/core";
@@ -66,10 +66,10 @@ export default function Navigation() {
                 />
               ) : (
                 <>
-                  <Link px={4} ml={3} href="register">
+                  <Link px={4} ml={3}  as={NavLink} to="/register">
                     Sign Up
                   </Link>
-                  <Link px={4} href="login">
+                  <Link px={4} as={NavLink}  to="/login">
                     Log In
                   </Link>
                 </>
