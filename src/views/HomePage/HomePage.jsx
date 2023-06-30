@@ -1,6 +1,7 @@
 import React from "react";
 import netflixLogo from "../../assets/images/teal-image.jpg";
 import { Stack, Text, Link } from "@chakra-ui/core";
+import { NavLink } from "react-router-dom";
 
 export default function HomePage() {
   return (
