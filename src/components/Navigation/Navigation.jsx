@@ -37,7 +37,7 @@ export default function Navigation() {
     <>
       <Box px={8} bg={colorMode === "light" ? "gray.100" : "gray.900"}>
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-          <Link href="/">
+          <Link as={NavLink} to="/">
             <Flex alignItems=" center" px={4}>
               <Image
                 src="https://png.pngtree.com/png-vector/20191018/ourlarge/pngtree-ukraine-icon-circle-png-image_1817366.jpg"
