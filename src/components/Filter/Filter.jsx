@@ -1,12 +1,11 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import filterContact from "../../redux/contacts/contacts-actions";
-import getFilter from "../../redux/contacts/contacts-selectors";
 
 import { Input, Text } from "@chakra-ui/core";
 
 const Filter = () => {
-  const value = useSelector(getFilter);
+  const value = useSelector((state) => state.filter);
   const dispatch = useDispatch();
 
   const handleFilter = (e) => dispatch(filterContact(e.target.value));

@@ -1,44 +1,27 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import {
-  useFetchUserQuery,
-  useLogOutUserMutation,
-} from "../../redux/auth/operations";
-// import { tokenAuth, logInAuth } from "../../redux/auth/auth-actions";
-import {getLoggedIn} from "../../redux/auth/selectors"
-import { getToken } from "../../redux/auth/selectors";
-// import { getIsLogInAuth } from "../../redux/auth/auth-selectors";
-// import { setToken } from "../../redux/auth/slice";
+import { useLogOutUserMutation } from "../../redux/auth/operations";
+import { setlogOut } from "../../redux/auth/slice";
+import { useAuth } from "../../hooks";
 import UserMenu from "../UserMenu/UserMenu";
 import { NavLink } from "react-router-dom";
 import { Box, Flex, Link, Image, Stack, Text } from "@chakra-ui/core";
-import { setlogOut } from "../../redux/auth/slice";
+
 import { useColorMode, IconButton } from "@chakra-ui/core";
-import { useAuth } from '../../hooks';
 
 export default function Navigation() {
   const { colorMode, toggleColorMode } = useColorMode();
 
+  const [logout] = useLogOutUserMutation();
+
   const dispatch = useDispatch();
   const history = useHistory();
+  const { user, isLoggedIn } = useAuth();
 
-  const {token} = useAuth();
-  console.log('token', token)
-  // const isLogInAuth = useSelector(getLoggedIn);
-  const { isLoggedIn } = useAuth();
-  const { user } = useAuth();
-
-  console.log('isLoggedIn', isLoggedIn)
-  // const { data: user } = useFetchUserQuery(token);
-  const [logout] = useLogOutUserMutation();
-console.log('useer', user)
-  const logoutUser = (token) => {
-    logout(token);
+  const logoutUser = () => {
+    logout();
     dispatch(setlogOut());
-    // dispatch(setToken(""));
-    console.log('useer', user)
-    // dispatch(isLogInAuth(false));
     history.push("/login");
   };
 
@@ -75,10 +58,10 @@ console.log('useer', user)
                 />
               ) : (
                 <>
-                  <Link px={4} ml={3}  as={NavLink} to="/register">
+                  <Link px={4} ml={3} as={NavLink} to="/register">
                     Sign Up
                   </Link>
-                  <Link px={4} as={NavLink}  to="/login">
+                  <Link px={4} as={NavLink} to="/login">
                     Log In
                   </Link>
                 </>

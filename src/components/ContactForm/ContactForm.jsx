@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import {
   useCreateContactMutation,
   useEditContactMutation,
   useFetchContactsQuery,
-} from "../../redux/contacts/contactsSlice";
-import { getToken } from "../../redux/auth/auth-selectors";
+} from "../../redux/contacts/operations";
+import { useAuth } from '../../hooks';
 
 import {
   Button,
@@ -25,7 +24,7 @@ export default function ContactForm({
 }) {
   const [name, setName] = useState(nameItem);
   const [number, setNumber] = useState(numberItem);
-  const token = useSelector(getToken);
+  const {token} = useAuth();
 
   const { data: contacts } = useFetchContactsQuery(token);
   const [createContact] = useCreateContactMutation();

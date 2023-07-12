@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useLogInUserMutation } from "../../redux/auth/operations";
 import { setToken } from "../../redux/auth/slice";
-// import { tokenAuth, logInAuth } from "../../redux/auth/auth-actions";
-// import setToken from '../../redux/auth/slice'
 
 import {
   Button,
@@ -22,42 +20,11 @@ export default function LogIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [login, { data: user, isSuccess, isError, error }] =
-    useLogInUserMutation();
+  const [login] = useLogInUserMutation();
 
   const dispatch = useDispatch();
   const history = useHistory();
   const toast = useToast();
-console.log('user', user)
-  useEffect(() => {
-    if (isSuccess) {
-      dispatch(setToken(user));
-      // dispatch(logInAuth(true));
-      history.push("/contacts");
-      // console.log("loginned");
-      toast({
-        title: "Hello!",
-        description: "We've loginned to your account.",
-        status: "success",
-        duration: 9000,
-        isClosable: true,
-      });
-    }
-    if (isError) {
-      switch (error.status) {
-        case 400:
-          toast({
-            title: "An error occurred.",
-            description: "Unable to login to your account.",
-            status: "error",
-            duration: 9000,
-            isClosable: true,
-          });
-        default:
-          alert("Unknworn error.");
-      }
-    }
-  }, [user, isSuccess, isError, error, dispatch, history]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -74,14 +41,39 @@ console.log('user', user)
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
     const user = {
       email: email,
       password: password,
     };
-    login(user);
-    reset();
+
+    if (user) {
+      try {
+        const result = await login(user);
+        if (result) {
+          dispatch(setToken(result.data));
+        }
+        toast({
+          title: "Hello!",
+          description: "We've loginned to your account.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+        history.push("/contacts");
+        reset();
+      } catch (err) {
+        toast({
+          title: "An error occurred.",
+          description: "Unable to login to your account.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      }
+    }
   };
 
   const reset = () => {

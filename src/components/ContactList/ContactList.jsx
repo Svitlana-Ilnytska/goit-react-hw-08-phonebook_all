@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import {
   useFetchContactsQuery,
   useDeleteContactMutation,
-} from "../../redux/contacts/contactsSlice";
+} from "../../redux/contacts/operations";
 import { useAuth } from '../../hooks';
 import ContactItem from "../ContactItem/ContactItem";
 

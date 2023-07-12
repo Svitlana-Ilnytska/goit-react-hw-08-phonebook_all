@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useCreateUserMutation } from "../../redux/auth/operations";
 import { setToken } from "../../redux/auth/slice";
-// import { tokenAuth, logInAuth } from "../../redux/auth/auth-actions";
 
 import {
   Button,
@@ -22,40 +21,11 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const [createUser, { data: user, isSuccess, isError, error }] =
-    useCreateUserMutation();
+  const [createUser] = useCreateUserMutation();
+
   const dispatch = useDispatch();
   const history = useHistory();
   const toast = useToast();
-  useEffect(() => {
-    if (user) {
-      dispatch(setToken(user));
-      // dispatch(logInAuth(true));
-      history.push("/contacts");
-      console.log("registered");
-      toast({
-        title: "Account created.",
-        description: "We've created your account for you.",
-        status: "success",
-        duration: 9000,
-        isClosable: true,
-      });
-    }
-    if (isError) {
-      switch (error.status) {
-        case 400:
-          toast({
-            title: "An error occurred.",
-            description: "Unable to create user account.",
-            status: "error",
-            duration: 9000,
-            isClosable: true,
-          });
-        default:
-          alert("Unknworn error.");
-      }
-    }
-  }, [user, isSuccess, isError, error, dispatch, history]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -76,16 +46,40 @@ export default function SignUp() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-console.log('hello')
+
     const user = {
       name: name,
       email: email,
       password: password,
     };
-    createUser(user);
-    reset();
+
+    if (user) {
+      try {
+        const result = await createUser(user);
+        if (result) {
+          dispatch(setToken(result.data));
+        }
+        toast({
+          title: "Account created.",
+          description: "We've created your account for you.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        });
+        history.push("/contacts");
+        reset();
+      } catch (err) {
+        toast({
+          title: "An error occurred.",
+          description: "Unable to create user account.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+      }
+    }
   };
 
   const reset = () => {
