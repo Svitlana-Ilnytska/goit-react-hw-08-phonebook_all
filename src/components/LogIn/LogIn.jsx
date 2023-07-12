@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { useLogInUserMutation } from "../../redux/auth/authSlice";
-import { tokenAuth, logInAuth } from "../../redux/auth/auth-actions";
+import { useLogInUserMutation } from "../../redux/auth/operations";
+import { setToken } from "../../redux/auth/slice";
+// import { tokenAuth, logInAuth } from "../../redux/auth/auth-actions";
+// import setToken from '../../redux/auth/slice'
 
 import {
   Button,
@@ -22,16 +24,17 @@ export default function LogIn() {
 
   const [login, { data: user, isSuccess, isError, error }] =
     useLogInUserMutation();
+
   const dispatch = useDispatch();
   const history = useHistory();
   const toast = useToast();
-
+console.log('user', user)
   useEffect(() => {
     if (isSuccess) {
-      dispatch(tokenAuth(user.token));
-      dispatch(logInAuth(true));
+      dispatch(setToken(user));
+      // dispatch(logInAuth(true));
       history.push("/contacts");
-      console.log("loginned");
+      // console.log("loginned");
       toast({
         title: "Hello!",
         description: "We've loginned to your account.",

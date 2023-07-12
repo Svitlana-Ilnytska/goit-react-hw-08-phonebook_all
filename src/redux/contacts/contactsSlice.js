@@ -6,50 +6,50 @@ export const contactApi = createApi({
   reducerPath: "contactApi",
   baseQuery: fetchBaseQuery({
     baseUrl: baseUrl,
+    prepareHeaders: (headers, { getState }) => {
+   
+    const token = getState().auth.token;
+    if (token) {
+      headers.set("Authorization", `Bearer ${token}`);
+    }
+    return headers;
+  },
   }),
   tagTypes: ["Contact"],
   endpoints: (builder) => ({
     fetchContacts: builder.query({
-      query: (token) => ({
+      query: () => ({
         url: "/contacts",
-        headers: {
-          Authorization: token,
-        },
+      
       }),
       providesTags: ["Contact"],
     }),
 
     createContact: builder.mutation({
-      query: ({ contactName, token }) => ({
+      query: ({ contactName }) => ({
         url: "/contacts",
         method: "POST",
-        headers: {
-          Authorization: token,
-        },
+      
         body: contactName,
       }),
       invalidatesTags: ["Contact"],
     }),
 
     editContact: builder.mutation({
-      query: ({id, contactName, token}) => ({
+      query: ({id, contactName}) => ({
         url: `/contacts/${id}`,
         method: "PATCH",
-        headers: {
-          Authorization: token,
-        },
+       
         body: contactName,
       }),
       invalidatesTags: ["Contact"],
     }),
 
     deleteContact: builder.mutation({
-      query: ({id, token}) => ({
+      query: ({id}) => ({
         url: `/contacts/${id}`,
         method: "DELETE",
-        headers: {
-          Authorization: token,
-        },
+       
       }),
       invalidatesTags: ["Contact"],
     }),

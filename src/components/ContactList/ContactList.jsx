@@ -4,8 +4,7 @@ import {
   useFetchContactsQuery,
   useDeleteContactMutation,
 } from "../../redux/contacts/contactsSlice";
-import { getToken } from "../../redux/auth/auth-selectors";
-
+import { useAuth } from '../../hooks';
 import ContactItem from "../ContactItem/ContactItem";
 
 import {
@@ -20,7 +19,7 @@ const filterAllContacts = (contacts, filter) => {
 };
 
 const ContactList = () => {
-  const token = useSelector(getToken);
+  const {token} = useAuth();
   const { data: contacts } = useFetchContactsQuery(token);
 
   const filterAll = useSelector((state) => state.filter);

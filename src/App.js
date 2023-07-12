@@ -5,8 +5,8 @@ import { useHistory } from "react-router-dom";
 import { logInAuth } from "./redux/auth/auth-actions";
 import { useFetchUserQuery } from "./redux/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { getToken } from "./redux/auth/auth-selectors";
-
+// import { getToken } from "./redux/auth/auth-selectors";
+import { setToken } from "./redux/auth/slice";
 import Navigation from "./components/Navigation/Navigation";
 import {
   ThemeProvider,
@@ -39,18 +39,20 @@ const СontactsPage = lazy(() =>
 );
 
 export default function App() {
-  const dispatch = useDispatch();
-  const history = useHistory();
+  // const dispatch = useDispatch();
+  // const history = useHistory();
 
-  const token = useSelector(getToken);
-  const { data: user } = useFetchUserQuery(token);
+  // const token = useSelector(setToken);
+  // const { data: user } = useFetchUserQuery();
 
-  useEffect(() => {
-    if (token !== "") {
-      dispatch(logInAuth(true));
-      user && history.push("/contacts");
-    }
-  }, [user, token, history, dispatch]);
+
+  
+  // useEffect(() => {
+  //   if (token !== "") {
+  //     dispatch(logInAuth(true));
+  //     user && history.push("/contacts");
+  //   }
+  // }, [user, token, history, dispatch]);
 
   return (
     <div>
@@ -79,27 +81,27 @@ export default function App() {
               </Flex>
             }
           >
-            <Switch>
-              <Route path="/" exact>
-                <HomePage />
-              </Route>
+                    <Switch>
+                      <Route path="/" exact>
+                        <HomePage />
+                      </Route>
 
-              <Route path="/register" exact>
-                <SignUpPage />
-              </Route>
+                      <Route path="/register" exact>
+                        <SignUpPage />
+                      </Route>
 
-              <Route path="/login" exact>
-                <LogInPage />
-              </Route>
+                      <Route path="/login" exact>
+                        <LogInPage />
+                      </Route>
 
-              <Route path="/contacts" exact>
-                <СontactsPage />
-              </Route>
+                      <Route path="/contacts" exact>
+                        <СontactsPage />
+                      </Route>
 
-              <Route>
-                <HomePage />
-              </Route>
-            </Switch>
+                      <Route>
+                        <HomePage />
+                      </Route>
+                    </Switch>
           </Suspense>
         </ColorModeProvider>
       </ThemeProvider>

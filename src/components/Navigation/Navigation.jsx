@@ -4,15 +4,18 @@ import { useHistory } from "react-router-dom";
 import {
   useFetchUserQuery,
   useLogOutUserMutation,
-} from "../../redux/auth/authSlice";
-import { tokenAuth, logInAuth } from "../../redux/auth/auth-actions";
-import { getToken } from "../../redux/auth/auth-selectors";
-import { getIsLogInAuth } from "../../redux/auth/auth-selectors";
+} from "../../redux/auth/operations";
+// import { tokenAuth, logInAuth } from "../../redux/auth/auth-actions";
+import {getLoggedIn} from "../../redux/auth/selectors"
+import { getToken } from "../../redux/auth/selectors";
+// import { getIsLogInAuth } from "../../redux/auth/auth-selectors";
+// import { setToken } from "../../redux/auth/slice";
 import UserMenu from "../UserMenu/UserMenu";
 import { NavLink } from "react-router-dom";
 import { Box, Flex, Link, Image, Stack, Text } from "@chakra-ui/core";
-
+import { setlogOut } from "../../redux/auth/slice";
 import { useColorMode, IconButton } from "@chakra-ui/core";
+import { useAuth } from '../../hooks';
 
 export default function Navigation() {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -20,16 +23,22 @@ export default function Navigation() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const token = useSelector(getToken);
-  const isLogInAuth = useSelector(getIsLogInAuth);
+  const {token} = useAuth();
+  console.log('token', token)
+  // const isLogInAuth = useSelector(getLoggedIn);
+  const { isLoggedIn } = useAuth();
+  const { user } = useAuth();
 
-  const { data: user } = useFetchUserQuery(token);
-  const [logout] = useLogOutUserMutation(token);
-
+  console.log('isLoggedIn', isLoggedIn)
+  // const { data: user } = useFetchUserQuery(token);
+  const [logout] = useLogOutUserMutation();
+console.log('useer', user)
   const logoutUser = (token) => {
     logout(token);
-    dispatch(logInAuth(false));
-    dispatch(tokenAuth(""));
+    dispatch(setlogOut());
+    // dispatch(setToken(""));
+    console.log('useer', user)
+    // dispatch(isLogInAuth(false));
     history.push("/login");
   };
 
@@ -58,11 +67,11 @@ export default function Navigation() {
             </Box>
 
             <Stack direction={"row"} spacing={7}>
-              {user && isLogInAuth ? (
+              {user && isLoggedIn ? (
                 <UserMenu
                   name={user.name}
                   email={user.email}
-                  onLogOut={() => logoutUser(token)}
+                  onLogOut={() => logoutUser()}
                 />
               ) : (
                 <>

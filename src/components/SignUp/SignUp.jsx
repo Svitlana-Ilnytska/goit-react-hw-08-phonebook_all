@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { useCreateUserMutation } from "../../redux/auth/authSlice";
-import { tokenAuth, logInAuth } from "../../redux/auth/auth-actions";
+import { useCreateUserMutation } from "../../redux/auth/operations";
+import { setToken } from "../../redux/auth/slice";
+// import { tokenAuth, logInAuth } from "../../redux/auth/auth-actions";
 
 import {
   Button,
@@ -28,8 +29,8 @@ export default function SignUp() {
   const toast = useToast();
   useEffect(() => {
     if (user) {
-      dispatch(tokenAuth(user.token));
-      dispatch(logInAuth(true));
+      dispatch(setToken(user));
+      // dispatch(logInAuth(true));
       history.push("/contacts");
       console.log("registered");
       toast({
@@ -77,7 +78,7 @@ export default function SignUp() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+console.log('hello')
     const user = {
       name: name,
       email: email,
