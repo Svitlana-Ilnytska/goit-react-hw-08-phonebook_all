@@ -23,7 +23,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <BrowserRouter basename="/goit-react-hw-08-phonebook">
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
           <ThemeProvider theme={customTheme}>
             <App />
           </ThemeProvider>
