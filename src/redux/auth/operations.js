@@ -15,6 +15,10 @@ export const authUserApi = createApi({
     },
   }),
   endpoints: (builder) => ({
+    fetchUser: builder.query({
+      query: () => "/users/current",
+   
+    }),
     createUser: builder.mutation({
       query: (credentials) => ({
         url: "/users/signup",
@@ -35,12 +39,6 @@ export const authUserApi = createApi({
         method: "POST",
       }),
     }),
-    fetchUser: builder.query({
-      query: () => "/users/current",
-      // headers: {
-      //   Authorization: '',
-      // },
-    }),
   }),
 });
 
@@ -50,3 +48,4 @@ export const {
   useLogInUserMutation,
   useLogOutUserMutation,
 } = authUserApi;
+

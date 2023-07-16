@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useLogInUserMutation } from "../../redux/auth/operations";
@@ -19,6 +19,7 @@ import {
 export default function LogIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isMounted, setIsMounted] = useState(true); 
 
   const [login] = useLogInUserMutation();
 
@@ -52,7 +53,7 @@ export default function LogIn() {
     if (user) {
       try {
         const result = await login(user);
-        if (result) {
+        if (isMounted) {
           dispatch(setToken(result.data));
         }
         toast({
@@ -75,6 +76,12 @@ export default function LogIn() {
       }
     }
   };
+  
+  useEffect(() => {
+    return () => {
+      setIsMounted(false); 
+    };
+  }, []);
 
   const reset = () => {
     setEmail("");

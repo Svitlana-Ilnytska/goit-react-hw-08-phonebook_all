@@ -1,19 +1,24 @@
 import { Route, Redirect } from "react-router-dom";
 import { useAuth } from "./hooks";
 
-export default function PrivateRoute({
+
+export default function PrivateRoute ({
   component: Component,
-  redirectTo = "/",
-  ...rest
+  redirectTo,
+  ...routeProps
 }) {
-  const { isLoggedIn } = useAuth();
-console.log(isLoggedIn)
+  const { isLoggedIn, isRefreshing } = useAuth();
+  const shouldRedirect = isLoggedIn && !isRefreshing;
   return (
     <Route
-      {...rest}
-      render={(props) =>
-        isLoggedIn ? <Component {...props} /> : <Redirect to={redirectTo} />
+      {...routeProps}
+      render={props =>
+        shouldRedirect ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to={redirectTo} />
+        )
       }
     />
   );
-}
+};

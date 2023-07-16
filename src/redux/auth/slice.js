@@ -25,8 +25,9 @@ const authReducer = createSlice({
       state.isLoggedIn = false;
     },
     refreshUser: (state, action) => {
-        state.user = action.payload.user;
+        state.user = action.payload;
         state.isLoggedIn = true;
+        state.isRefreshing = false;
       },
   },
 });

@@ -6,7 +6,7 @@ import { setlogOut } from "../../redux/auth/slice";
 import { useAuth } from "../../hooks";
 import UserMenu from "../UserMenu/UserMenu";
 import { NavLink } from "react-router-dom";
-import { Box, Flex, Link, Image, Stack, Text } from "@chakra-ui/core";
+import { Box, Flex, Link, Image, Stack, Text, useToast } from "@chakra-ui/core";
 
 import { useColorMode, IconButton } from "@chakra-ui/core";
 
@@ -17,13 +17,28 @@ export default function Navigation() {
 
   const dispatch = useDispatch();
   const history = useHistory();
-  const { user, isLoggedIn } = useAuth();
+  const toast = useToast();
+  const { isLoggedIn } = useAuth();
+  const { user } = useAuth();
 
-  const logoutUser = () => {
-    logout();
-    dispatch(setlogOut());
-    history.push("/login");
-  };
+
+    const logoutUser = async () => {
+    try {
+      const result = await logout();
+      if (result.data) {
+        dispatch(setlogOut());
+        history.push("/login");
+      }
+    } catch (err) {
+      toast({
+        title: "Error.",
+        description: "Something wrong.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      })
+    }
+  }
 
   return (
     <>

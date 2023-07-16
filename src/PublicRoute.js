@@ -3,17 +3,16 @@ import { Route, Redirect } from 'react-router-dom';
 
 export default function PublicRoute ({
   component: Component,
-  restricted = false,
-  redirectTo = '/',
-  ...rest
-})  {
+  redirectTo,
+  ...routeProps
+}) {
   const { isLoggedIn } = useAuth();
 
   return (
     <Route
-      {...rest}
+      {...routeProps}
       render={props =>
-        isLoggedIn && restricted ? (
+        isLoggedIn && routeProps.restricted ? (
           <Redirect to={redirectTo} />
         ) : (
           <Component {...props} />
@@ -22,3 +21,4 @@ export default function PublicRoute ({
     />
   );
 };
+
