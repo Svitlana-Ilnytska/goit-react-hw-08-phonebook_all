@@ -118,7 +118,7 @@ export default function App() {
                     component={ContactsPage}
                   />
 
-                  <Redirect to="/login" />
+                  <Redirect to="/" />
                 </Switch>
               </Suspense>
             )}
